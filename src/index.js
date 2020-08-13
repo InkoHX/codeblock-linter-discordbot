@@ -6,6 +6,9 @@ const { ESLint } = require('eslint')
 const client = new Discord.Client({
   ws: {
     intents: Discord.Intents.NON_PRIVILEGED
+  },
+  http: {
+    api: 'https://discord.com/api'
   }
 })
 
