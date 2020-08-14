@@ -3,6 +3,9 @@
   "repository": "https://github.com/InkoHX/codeblock-linter-discordbot.git",
   "author": "InkoHX <inkohx@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "node ./src/index.js"
+  },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^3.9.0",
     "@typescript-eslint/parser": "^3.9.0",
