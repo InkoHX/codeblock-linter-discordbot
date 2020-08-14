@@ -34,14 +34,16 @@ client.once('ready', () => console.log('READY!'))
 client.on('message', message => {
   if (message.author.bot || message.system) return
 
-  const code = /`{3}(?:js|ts)\n(?<code>.*)\n`{3}/gus.exec(message.content)?.groups?.code
+  const codes = [...message.content.matchAll(/`{3}(?:js|ts)\n(?<code>[\s\S]*?)\n`{3}/gu)]
+    .map(result => result.groups.code)
 
-  if (!code) return
+  if (!codes.length) return
 
   message.react('✅')
     .then(reaction => reaction.message.awaitReactions((reaction) => reaction.emoji.name === '✅', { max: 1 }))
     .then(() => message.reactions.removeAll())
-    .then(() => linter.lintText(code))
+    .then(() => Promise.all(codes.map(code => linter.lintText(code))))
+    .then(results => results.flat())
     .then(results => Promise.all(results.map(result => message.reply(createLintResultEmbed(result)))))
 })
 
