@@ -40,7 +40,7 @@ client.on('message', message => {
   if (!codes.length) return
 
   message.react('✅')
-    .then(reaction => reaction.message.awaitReactions((reaction) => reaction.emoji.name === '✅', { max: 1 }))
+    .then(reaction => reaction.message.awaitReactions((reaction, user) => !user.bot && reaction.emoji.name === '✅', { max: 1 }))
     .then(() => message.reactions.removeAll())
     .then(() => Promise.all(codes.map(code => linter.lintText(code))))
     .then(results => results.flat())
